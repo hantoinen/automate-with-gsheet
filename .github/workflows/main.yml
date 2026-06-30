@@ -25,6 +25,19 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+
+
+
+    - name: Debug secrets presence
+      env:
+        SHEET_ID: ${{ secrets.SHEET_ID }}
+        WORKSHEET: ${{ secrets.WORKSHEET }}
+      run: |
+        echo "SHEET_ID length: ${#SHEET_ID}"
+        echo "WORKSHEET length: ${#WORKSHEET}"
+
+
+
     - name: Run ETL Script
       env:
         # Google Sheets
