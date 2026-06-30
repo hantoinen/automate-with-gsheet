@@ -40,17 +40,17 @@ jobs:
 
     - name: Run ETL Script
       env:
-        # Google Sheets
-        SHEET_ID: ${{ secrets.SHEET_ID }}
-        WORKSHEET: ${{ secrets.WORKSHEET }}
+        # Google Sheets (Variables)
+        SHEET_ID: ${{ vars.SHEET_ID }}
+        WORKSHEET: ${{ vars.WORKSHEET }}
         GOOGLE_SA_KEY_JSON: ${{ secrets.GOOGLE_SA_KEY_JSON }}
 
-        # PostgreSQL (Liaison directe)
-        PG_HOST: ${{ secrets.DB_HOST }} # 👈 Python attend PG_HOST, ton secret s'appelle DB_HOST
-        PG_USER: ${{ secrets.PG_USER }}
+        # PostgreSQL
+        PG_HOST: ${{ secrets.DB_HOST }}
+        PG_USER: ${{ vars.PG_USER }}
         PG_PASSWORD: ${{ secrets.PG_PASSWORD }}
-        PG_PORT: ${{ secrets.PG_PORT }}
-        PG_DB: ${{ secrets.PG_DB }}
-        PG_TABLE: ${{ secrets.PG_TABLE }}
+        PG_PORT: ${{ vars.PG_PORT }}
+        PG_DB: ${{ vars.PG_DB }}
+        PG_TABLE: ${{ vars.PG_TABLE }}
       run: |
         python etl.py
