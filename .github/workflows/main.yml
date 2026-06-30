@@ -49,7 +49,8 @@ jobs:
         # 2. Tes Variables d'environnement classiques
         DB_USER: "postgres"          
         DB_NAME: "postgres"          
-        DB_PORT: "5432"              
+        DB_PORT: "5432"  
+        SHEET_ID: "15jf5Ys_DQOa0g56-Mjd6jzWzNke6O-Mg42cXXao5Mn8"            
         
       run: |
         python etl.py
