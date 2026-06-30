@@ -34,5 +34,7 @@ jobs:
         DB_NAME: "postgres"          
         DB_PORT: "5432"              
         SHEET_ID: "15jf5Ys_DQOa0g56-Mjd6jzWzNke6O-Mg42cXXao5Mn8" # 👈 Remplace ce texte par ton vrai ID
+        WORKSHEET: "Sheet1"        # Le nom exact de ton onglet Google Sheet
+        TABLE_NAME: "pnl"
       run: |
         python etl.py
