@@ -1,56 +1,38 @@
-# Nom du workflow tel qu'il apparaîtra dans l'onglet "Actions" sur GitHub
 name: Run Bright Books ETL
 
-# Déclencheurs (Triggers) : Événements qui lancent automatiquement le script
 on:
   push:
-    # Le script s'exécute dès que tu envoies (push) une modification sur la branche principale
     branches: [ "main" ] 
+  workflow_dispatch:
   schedule:
-    # Planification automatique (système CRON)
-    # '0 9 * * 1' signifie : Exécuter automatiquement tous les lundis à 9h00 UTC
     - cron: '0 9 * * 1' 
 
-# Liste des tâches à accomplir
 jobs:
   run-etl:
-    # Système d'exploitation de la machine virtuelle éphémère fournie par GitHub
     runs-on: ubuntu-latest
 
-    # Suite d'étapes exécutées séquentiellement
     steps:
-    # ÉTAPE 1 : Cloner le code de ton dépôt GitHub sur la machine virtuelle
     - name: Checkout repository code
       uses: actions/checkout@v4
 
-    # ÉTAPE 2 : Installer l'environnement Python requis sur la machine virtuelle
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.10' # Version de Python cible (correction de 'python-state' en 'python-version')
+        python-version: '3.10' 
 
-    # ÉTAPE 3 : Mettre à jour l'installateur pip et télécharger les packages nécessaires
-    # (gspread, pandas, sqlalchemy, psycopg2, etc. listés dans ton requirements.txt)
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # ÉTAPE 4 : Lancer le script Python de l'ETL
     - name: Run ETL Script
-      # Section cruciale : Injecter tes Secrets GitHub sous forme de variables d'environnement
-      # Le script Python (ex: os.environ.get("DB_HOST")) lira ces valeurs de manière sécurisée
       env:
-        # 1. Tes 3 Secrets GitHub
         DB_HOST: ${{ secrets.dbhost }}
         DB_PASSWORD: ${{ secrets.password }}
         GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.google_key }} 
-
-        # 2. Tes Variables d'environnement classiques
         DB_USER: "postgres"          
         DB_NAME: "postgres"          
-        DB_PORT: "5432"  
-        SHEET_ID: "15jf5Ys_DQOa0g56-Mjd6jzWzNke6O-Mg42cXXao5Mn8"            
-        
+        DB_PORT: "5432"              
+        SHEET_ID: "15jf5Ys_DQOa0g56-Mjd6jzWzNke6O-Mg42cXXao5Mn8" # 👈 Remplace ce texte par ton vrai ID
       run: |
         python etl.py
