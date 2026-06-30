@@ -27,7 +27,6 @@ jobs:
 
     - name: Run ETL Script
       env:
-      env:
         # Google Sheets
         SHEET_ID: ${{ secrets.SHEET_ID }}
         WORKSHEET: ${{ secrets.WORKSHEET }}
